@@ -17,7 +17,7 @@ wsServer.on("connection", (ws, req) => {
   lookup[id] = ws;
   //console.log(id);
   //Recieve a message. In this case an id to do a process.
-  ws.on("message", (message) => console.log(message));
+  ws.on("message", (message) => console.log(essage));
 
   //Send a message asking for a moment.
   //lookup[id].send("We are processing your file. Please Wait");
