@@ -1,6 +1,6 @@
 const express = require("express");
 const ws = require("ws");
-var lookup = {};
+var client = {};
 const app = express();
 const fs = require("fs");
 
@@ -14,26 +14,24 @@ wsServer.on("connection", (ws, req) => {
   //Get an unique identifier
   var id = req.headers["sec-websocket-key"];
   //Save that websocket connection with its id
-  lookup[id] = ws;
-  //console.log(id);
-  //Recieve a message. In this case an id to do a process.
-  ws.on("message", (message) => console.log(essage));
+  client[id] = ws;
 
-  //Send a message asking for a moment.
-  //lookup[id].send("We are processing your file. Please Wait");
+  //Recieve a message. In this case an id to do a process.
+  ws.on("message", (message) => console.log(message));
 
   //Simulate the process of the work on server. When it finishes redirect the client or server a file.
 
   setInterval(function () {
-    //lookup[id].send("Redireccion al id del libro = " + id);
-    //lookup[id].send("Redireccion");
+    //Manda un mensaje
+    //client[id].send("Redireccion");
+
     fs.readFile("./test.pdf", function (err, data) {
       if (err) {
         console.log(err);
       }
-      lookup[id].send(data, { binary: true });
+      client[id].send(data, { binary: true });
+      client[id].close();
     });
-    //lookup[id].close();
   }, 3000);
 });
 
